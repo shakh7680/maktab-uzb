@@ -1,0 +1,69 @@
+{% extends is_staff|yesno:'admin.html,user.html' %}
+
+{% block title%}
+Applies
+{% endblock %}
+
+{% block content %}
+<div class="col-xl-12 col-lg-7 mb-4">
+    <div class="card">
+      <div class="card-header py-3 d-flex flex-row align-items-center ">
+        {% if not user.is_staff %}
+        <h6 class="m-0 font-weight-bold text-primary"><a href="{% url 'making_apply' user.id %}" class="btn btn-success"> Making Apply</a></h6>  
+        {% endif %}
+          <div class="p-2"><a class="m-0  btn btn-danger btn-sm"href="{% url 'applies' 'all' %}">All</a></div>
+          <div class="p-2"><a class="m-0  btn btn-danger btn-sm" href="{% url 'applies' 'process' %}">On process</a></div>
+          <div class="p-2"><a class="m-0  btn btn-danger btn-sm" href="{% url 'applies' 'received' %}">Received</a></div>
+          <div class="p-2"><a class="m-0  btn btn-danger btn-sm" href="{% url 'applies' 'rejected' %}">Rejected</a></div>
+      </div>
+
+      <div class="table-responsive">
+        <table class="table align-items-center table-flush">
+          <thead class="thead-light">
+            <tr>
+                <th>Apply id</th>
+                <th>Applicants Name</th>
+                <th>Apply Surname</th>
+                <th>Apply email</th>
+                <th>Apply body</th>
+                <th>Apply region</th>
+                {% if apply.status == 0 %}
+                <th>Apply Recejted</th>
+                {% elif apply.status == 1 %}
+                <th>Apply Received</th>               
+                {%endif%}
+                <th>Aplly created_at</th>
+                <th>Apply updated_at</td>
+            </tr>
+          </thead>
+
+          <tbody>
+            {% if apply %}    
+            <tr>
+              <td><a href="#">{{apply.id}}</a></td>
+              <a href="{% url 'apply_full_info' apply.id %}"><td>{{apply.first_name}}</td></a>
+              <td>{{apply.last_name}}</td>
+              <td>{{apply.email}}</td>
+              <td>{{apply.body}}</td>
+              <td>{{apply.region}}</td>
+              {% if apply.status == 0 %}
+                <td>{{apply.rejected_at}}</td>
+              {% elif apply.status == 1 %}
+                <td>{{apply.received_at}}</td>               
+              {%endif%}
+              <td>{{apply.created_at}}</td>
+              <td>{{apply.update_at}}</td>
+            </tr>
+            {% else %}
+            <tr>
+              <td colspan="11" align ="center">
+                <p> There is no applies!</p>
+              </td>
+            </tr>
+            {% endif %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+</div>
+{% endblock %}

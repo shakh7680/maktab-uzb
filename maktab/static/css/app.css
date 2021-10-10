@@ -1,0 +1,99 @@
+.back-to-top {
+    background-color: deeppink;
+    text-decoration: none;
+    cursor: pointer;
+    width: 56px;
+    height: 56px;
+    z-index: 999;
+    position: fixed;
+    right: 32px;
+    bottom: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 0;
+    border-radius: 100%;
+    box-shadow: 0 4px 16px 0 rgba(0, 0, 0, 0.4);
+  }
+  .back-to-top:hover {
+    background-color: #ff51af;
+  }
+  .back-to-top:active {
+    box-shadow: none;
+    background-color: #d60074;
+  }
+  .back-to-top svg.icon__arrow-up {
+    fill: white;
+    width: 32px;
+    height: 32px;
+  }
+  
+  body {
+    background-color: #eee;
+    min-height: 100vh;
+  }
+  body .box {
+    padding: 40px;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+  body .box-2 {
+    background-color: #ddd;
+  }
+  body .box-3 {
+    background-color: #ccc;
+  }
+  body .box-4 {
+    background-color: #bbb;
+  }
+  body .box .title {
+    margin: 0;
+    text-align: center;
+  }
+
+
+  /* Star rating */
+  .clearfix {
+    clear: both;
+  }
+  
+  
+  a {
+    color: tomato;
+    text-decoration: none;
+  }
+  
+  a:hover {
+    color: #2196f3;
+  }
+  /* Rating Star Widgets Style */
+  .rating-stars ul {
+    list-style-type: none;
+    padding: 0;
+  
+    -moz-user-select: none;
+    -webkit-user-select: none;
+  }
+  .rating-stars ul > li.star {
+    display: inline-block;
+  }
+  
+  /* Idle State of the stars */
+  .rating-stars ul > li.star > i.fa {
+    font-size: 1.5em; /* Change the size of the stars */
+    color: #ccc; /* Color on idle state */
+  }
+  
+  /* Hover state of the stars */
+  .rating-stars ul > li.star.hover > i.fa {
+    color: #ffcc36;
+  }
+  
+  /* Selected state of the stars */
+  .rating-stars ul > li.star.selected > i.fa {
+    color: #ff912c;
+  }
+  

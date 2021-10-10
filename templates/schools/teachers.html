@@ -1,0 +1,315 @@
+{% extends 'base.html' %}
+
+{% block title%}
+Schools
+{% endblock %}
+
+{% block content %}
+<section id="showcase-inner" class="showcase-search text-white py-5 ">
+  <div class="container">
+    <div class="row text-center">
+      <div class="col-md-12 rounded shadow  pb-3">
+        <div class="lead mb-5 text-primary ">
+          Here you can search subjects you want easily.
+        </div>
+
+        <form action="{% url 'teachers' school_id   %}">
+          <!-- Form Row 1 -->
+          <div class="form-row">
+            <!-- Subject class -->
+            <div class="col-md-4 mb-3">
+              <label class="sr-only">Teachers Name</label>
+              <select name="teacher_name" class="form-control">
+                <option selected="true" disabled="disabled">
+                  Teachers name
+                </option>
+                {% for key in teachers_name %}
+                <option value="{{key}}" {% if key == values.teacher_name %} selected {% endif %}>
+                  {{key}}
+                </option>
+                {% endfor %}
+              </select>
+            </div>
+            <!-- Teacher surname -->
+            <div class="col-md-4 mb-3">
+              <select name="teacher_surname" class="form-control">
+                <option selected="true" disabled="disabled">
+                  Teachers surname
+                </option>
+                {% for key in teachers_surname %}
+                <option value="{{key}}" {% if key == values.teacher_surname %} selected {% endif %}>
+                  {{key}}
+                </option>
+                {% endfor %}>
+              </select>
+            </div>
+
+            <!-- Teachers role -->
+            <div class="col-md-4 mb-3">
+              <select name="teacher_role" class="form-control">
+                <option selected="true" disabled="disabled">
+                  Teachers role
+                </option>
+                {% for key in teachers_role %}
+                <option value="{{key}}" {% if key == values.teacher_role %} selected {% endif %}>
+                  {% if key == 0 %}
+                  Director
+                  {% elif key == 1 %}
+                  Assistant director
+                  {% elif key == 2 %}
+                  Teacher
+                  {% endif %}
+                </option>
+                {% endfor %}>
+              </select>
+            </div>
+            <button class="btn btn-success btn-block mt-4" type="submit">
+              Submit form
+            </button>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<section id="showcase-inner" class="showcase-search text-white py-5 ">
+
+  <div class="row" style="margin: 0 5px 0 5px;">
+    {% if teachers %}
+    {% for teacher in teachers %}
+    <div class="col-md-3">
+      <div class="card shadow-sm">
+
+        {% if teacher.image %}
+        <img class="card-img-top" src="{{ teacher.image.url }}" alt="{{teacher.first_name}} image">
+        {% else %}
+        {{teacher.first_name}} image does not exist.
+        {% endif %}
+        <div class="card-body ">
+
+          <h5 class="card-title text-dark" id="first_name"> First name: {{teacher.first_name}}</h5>
+
+          <p class="card-text text-dark"><span class="font-weight-bold"> Last name: </span>{{teacher.last_name}}</p>
+          <p class="card-text text-dark"><span class="font-weight-bold"> Role:</span>
+            {% if teacher.role == 0 %}
+            Director
+            {% elif teacher.role == 1 %}
+            Asisstant Director
+            {% else %}
+            Teacher
+            {% endif %}
+          </p>
+
+          <input type="hidden" id="school_id" data-id="{{teacher.school_id}}"></p>
+          <p class="card-text text-dark" id="{{teacher.id}}"><span class="font-weight-bold"> Ranking: </span> {{teacher.ranking}}</p>
+          <p class="card-text text-dark"><span class="font-weight-bold"> Where work:</span> School No:
+            {{teacher.school_id}}</p>
+
+
+          <!-- Button trigger modal -->
+          <div class="d-flex flex-row">
+            <button type="button" class="btn btn-success btn-comment" data-toggle="modal" {% if user.id %} data-target="#writecomment" 
+              data-id="{{ teacher.id }}" data-name="{{ teacher.first_name }}" data-school_id="{{ teacher.school_id.id}}" 
+              data-user_id="{{user.id}}" {% else %} data-target="#registermodal" {% endif %}>
+              <i class="far fa-comment"></i>
+              <span>Comment </span>
+            </button>
+
+            <input type="hidden" name="teacherid" id="modal_teacher_id1" value="">
+            <button type="submit" class="btn btn-success read_comment ml-2" data-toggle="modal"
+              data-target="#readcomment" data-id="{{ teacher.id }}" data-name="{{ teacher.first_name }}">
+              <i class="far fa-comment"></i>
+              <span>Read Comment</span> 
+            </button>
+          </div>
+
+          <div class="d-flex flex-row text-dark">
+            <section class='rating-widget'>
+
+              <!-- Rating Stars Box -->
+              
+              <div class='rating-stars'>
+                <ul id='stars'>
+                  <li class='star' title='Poor' data-value='1' data-id="{{ teacher.id }}" data-user_id="{{user.id}}">
+                    <i class='fa fa-star fa-fw'></i>
+                  </li>
+                  <li class='star' title='Fair' data-value='2' data-id="{{ teacher.id }}" data-user_id="{{user.id}}">
+                    <i class='fa fa-star fa-fw'></i>
+                  </li>
+                  <li class='star' title='Good' data-value='3' data-id="{{ teacher.id }}" data-user_id="{{user.id}}">
+                    <i class='fa fa-star fa-fw'></i>
+                  </li>
+                  <li class='star' title='Excellent' data-value='4' data-id="{{ teacher.id }}" data-user_id="{{user.id}}">
+                    <i class='fa fa-star fa-fw'></i>
+                  </li>
+                  <li class='star' title='WOW!!!' data-value='5' data-id="{{ teacher.id }}" data-user_id="{{user.id}}">
+                    <i class='fa fa-star fa-fw'></i>
+                  </li>
+                </ul>
+              </div>
+
+              <div class='success-box' >
+                <div class='clearfix'></div>
+
+                <div class='text-message'></div>
+                <div class='clearfix'></div>
+              </div>
+
+
+
+            </section>
+
+
+
+            <!-- Modal -->
+          </div>
+        </div>
+      </div>
+    </div>
+    {% endfor %}
+    {% else %}
+    <div class="col-md-12 text-center">
+      <h1>
+        <p class="text-dark">There is no teachers! </p>
+      </h1>
+    </div>
+
+    {% endif %}
+  </div>
+
+ 
+  <div class="modal fade" id="registermodal" tabindex="-1" role="dialog" aria-labelledby="exampleModalScrollableTitle"
+  aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+        <div class="modal-body text-dark">
+          <p class="text-center">Sorry, register for commenting <span id="modal_teacher_name"></span></p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+
+  <div class="modal fade" id="writecomment" tabindex="-1" role="dialog" aria-labelledby="exampleModalScrollableTitle"
+    aria-hidden="true">
+    <div class="modal-dialog modal-dialog-scrollable" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title text-dark" id="exampleModalScrollableTitle">Comments</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <form action="{% url 'comment_save' %}" method="POST">
+          {% csrf_token %}
+          <input type="hidden" name="teacher_id" id="modal_teacher_id" value=""/>
+          <input type="hidden" name="school_id" id="modal_school_id" value=""/>
+          <div class="modal-body text-dark">
+            {% if messages %}
+            {% for message in messages %}
+            <div class="alert alert-info">
+                {{ message }}
+            </div>
+            {% endfor %}
+          {% endif %}
+            <p class="text-center">Add comment to <span id="modal_teacher_name"></span></p>
+            <textarea class="form-control" name="comment" id="text-comment" rows="3"></textarea>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            <button type="submit" class="btn btn-primary saving">Save changes</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+
+  <div class="modal fade" id="readcomment" tabindex="-1" role="dialog" aria-labelledby="exampleModalScrollableTitle"
+    aria-hidden="true">
+    <div class="modal-dialog modal-dialog-scrollable" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title text-dark" id="exampleModalScrollableTitle">Comments</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+
+        <div class="modal-body text-dark" id="modal_body">
+          <p class="text-center">Comments for <span class="font-weight-bold" id="modal_teacher_name1"></span></p>
+          <div id="teacher_comments" class="text-dark">
+
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+
+
+
+  <div class="col-md-12 mt-2 pl-3">
+    {% if schools.has_other_pages %}
+    <ul class="pagination">
+      <!-- back arrow -->
+      {% if schools.has_previous  %}
+      <li class="page-item">
+        <a href="?page={{schools.previous_page_number}}" class="page-link">
+          &laquo;
+        </a>
+      </li>
+      {% else %}
+      <li class="page-item disabled">
+        <a class="page-link">&laquo;</a>
+      </li>
+      {% endif %}
+      <!-- Pages links -->
+      {% for i in schools.paginator.page_range %}
+      {% if schools.number == i %}
+      <li class="page-item active">
+        <a class="page-link">{{i}}</a>
+      </li>
+      {% else %}
+      <li class="page-item">
+        <a href="?page={{i}}" class="page-link">{{i}}</a>
+      </li>
+      {% endif %}
+      {% endfor %}
+
+      <!-- next arrow -->
+      {% if schools.has_next  %}
+      <li class="page-item">
+        <a href="?page={{schools.next_page_number}}" class="page-link">
+          &raquo;
+        </a>
+      </li>
+      {% else %}
+      <li class="page-item disabled">
+        <a class="page-link">&raquo;</a>
+      </li>
+      {% endif %}
+    </ul>
+    {% endif %}
+  </div>
+
+
+
+
+
+</section>
+{% endblock %}

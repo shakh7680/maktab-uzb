@@ -1,0 +1,121 @@
+{% extends 'base.html' %}
+{% block title %}
+Subjects
+{% endblock %}
+
+{% block content %}
+<section id="subjects" class="showcase-search text-white py-5 " >
+  <div class="container">
+    <div class="row text-center">
+      <div class="col-md-12 rounded shadow  pb-3">
+        <div class="lead mb-5 text-primary ">
+          Here you can search subjects you want easily.
+        </div>
+        <form action="{% url 'subjects' %}">
+          {% csrf_token %}
+          <!-- Form Row 1 -->
+          <div class="form-row">
+            <!-- Subject class -->
+            <div class="col-md-4 mb-3">
+              <label class="sr-only">Class of subject</label>
+              <select name="class_of_subject" class="form-control">
+                <option selected="true" disabled="disabled">
+                  Class of subjects
+                </option>
+                {% for key,value in class_of_subjects.items %}
+                <option value="{{key}}"
+                  {% if key == values.class_of_subject %}
+                      selected
+                  {% endif %}
+                  >
+                  {{value}}
+                </option>
+                {% endfor %}
+              </select>
+            </div>
+            <!-- Edition -->
+            <div class="col-md-4 mb-3">
+              <select name="edition" class="form-control">
+                <option selected="true" disabled="disabled">
+                  Edition
+                </option>
+                  {% for key,value in editions.items %}
+                  <option value="{{key}}"
+                  {% if key == values.edition %}
+                      selected
+                    {% endif %}
+                  >{{value}}</option>
+                  {% endfor %}>
+              </select>
+            </div>
+
+            <!-- ISBN -->
+            <div class="col-md-4 mb-3">
+              <label class="sr-only">ISBN</label>
+              <input
+                type="text"
+                name="isbn"
+                class="form-control"
+                placeholder="ISBN" value="{{values.isbn}}"/>
+            </div>
+          </div>
+
+          <!-- Form Row 2 -->
+          <div class="form-row">
+            <!-- Subject name -->
+            <div class="col-md-6 mb-3">
+              <label class="sr-only">Subjects name</label>
+              <input
+                type="text"
+                name="subject"
+                class="form-control"
+                placeholder="Subjects name" value="{{values.subject}}"/>
+            </div>
+
+            <!-- Author -->
+            <div class="col-md-6 mb-3">
+              <label class="sr-only">Author</label>
+              <input
+                type="text"
+                name="author"
+                class="form-control"
+                placeholder="Author name"
+                value="{{ values.author }}"
+              />
+            </div>
+          </div>
+          <button class="btn btn-success btn-block mt-4" type="submit">
+            Submit form
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="showcase-inner" class="showcase-search text-white py-5 " >
+  
+  <div class="row" style="margin: 0 5px 0 5px;">
+    {% for subject in subjects %}
+      <div class="col-md-3">
+        <div class="card shadow-sm" >
+          
+          <img  src="{{ subject.photo.url }}" alt="{{subject.photo}}" class="card-img-top">
+          <div class="card-body">
+            
+            <h5 class="card-title text-dark"> Subject of class: {{subject.class_of_subject}}</h5>
+            <p class="card-text text-dark"><span class="font-weight-bold"> Subject:</span> {{subject.subject}}</p>
+            <p class="card-text text-dark"><span class="font-weight-bold"> Edition:</span> {{subject.edition}}</p>
+            <p class="card-text text-dark"><span class="font-weight-bold"> ISBN:</span>  {{subject.isbn}}</p>
+            <p class="card-text text-dark"><span class="font-weight-bold"> Author:</span>  {{subject.author}}</p>
+            <a  href="{{ subject.file.url }}" class="btn btn-primary" download> Download Document </a>
+          </div>
+        </div>      
+    </div>
+    {% endfor %}
+  </div>
+ 
+ 
+</section>
+
+{% endblock %}

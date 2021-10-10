@@ -1,0 +1,117 @@
+{% extends 'user.html' %}
+
+{% load static %}
+
+{% block title %}
+Welcome {{user.first_name}}
+{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+  <div class="row">
+    <div class="col-sm-12">
+      <div class="title-box text-center">
+        <h3 class="customtext" style="color:rgb(19, 20, 20)">
+          Application
+        </h3>
+      </div>
+    </div>
+  </div>
+</div>
+<section class="paralax-mf footer-paralax bg-image sect-mt route" style="background-image: url(img/overlay-bg.jpg)">
+  <div class="overlay-mf"></div>
+  <div class="container">
+    <div class="row">
+      <div class="col-sm-12">
+        <div class="contact-mf">
+          <div id="contact" class="box-shadow-full">
+            <div class="row text-center">
+              <div class="col-md-12">
+                <div class="title-box-2">
+                  <h5 class="title-left">
+                    Send Message
+                  </h5>
+                </div>
+                <div>
+                  <form action="" method="post" role="form" class="contactForm">
+                    <div class="row">
+                      <form action="{% url 'making_apply' user.id %}" method="post">
+                        {% csrf_token %}
+                        <div class="col-md-6 mb-3">
+                          <div class="form-group">
+                            <input type="text" name="first_name" class="form-control" id="name" placeholder="Your Name"
+                              value="{{user.first_name}}" data-rule="minlen:4"
+                              data-msg="Please enter at least 4 chars" />
+                            <div class="validation"></div>
+                          </div>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                          <div class="form-group">
+                            <input type="text" name="last_name" class="form-control" id="last_name"
+                              placeholder="Your Last Name" value="{{user.last_name}}" data-rule="minlen:4"
+                              data-msg="Please enter at least 4 chars" />
+                            <div class="validation"></div>
+                          </div>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                          <div class="form-group">
+                            <input type="email" class="form-control" name="email" id="email" placeholder="Your Email"
+                              data-rule="email" value="{{user.email}}" data-msg="Please enter a valid email" />
+                            <div class="validation"></div>
+                          </div>
+                        </div>
+                        <div class="col-md-6 mb-3" id="apply_user_id" data-id="{{user.id}}">
+                          <label class="sr-only">Select region</label>
+                          <select name="region" id="region_user" class="form-control">
+                            <option value="123">
+                              Select region
+                            </option>
+                            {% for key,value in region_choices.items %}
+                            <option value="{{key}}">
+                              {{value}}
+                            </option>
+                            {% endfor %}
+                          </select>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                          <label class="sr-only">School type</label>
+                          <select name="school_type" id="school_type_user" class="form-control">
+                            <option value="">
+                              Select School Type
+                            </option>
+                            {% for key,value in school_type_choices.items %}
+                            <option value="{{key}}">
+                              {{value}}
+                            </option>
+                            {% endfor %}
+                          </select>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                          <select name="school_name" class="form-control" id="school_name_user">
+                            <option selected="true" disabled="disabled">
+                              Select School Name
+                            </option>
+                          </select>
+                        </div>
+                        <div class="col-md-12 mb-3">
+                          <div class="form-group">
+                            <textarea name="body" id="body" class="form-control" cols="30" rows="10"
+                              required></textarea>
+                            <div class="validation"></div>
+                          </div>
+                        </div>
+                        <!-- School name -->
+                        <div class="col-md-3 ">
+                          <button type="submit" class="btn btn-success">Send Message</button>
+                        </div>
+                    </div>
+                  </form>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  {% endblock %}

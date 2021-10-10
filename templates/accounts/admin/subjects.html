@@ -1,0 +1,50 @@
+{% extends 'admin.html' %}
+
+{% block title%}
+Teachers
+{% endblock %}
+
+{% block content %}
+<div class="col-xl-12 col-lg-7 mb-4">
+  
+  <div class="d-sm-flex align-items-center justify-content-between mb-4">
+    <h1 class="h3 mb-0 text-gray-800">Subjects</h1>
+  </div>
+  
+  <div class="card">
+    <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+      <h6 class="m-0 font-weight-bold text-primary">Subjects</h6>
+    </div>
+    <div class="table-responsive">
+      <table class="table align-items-center table-flush">
+        <thead class="thead-light">
+          <tr>
+            <th>Subject id</th>
+            <th>Subject Name</th>
+            <th>Subject class</th>
+            <th>Subject Author</th>
+            <th>Subject ISBN</th>
+            <th>Subject Edition</th>
+            <th>Subject Download</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          {% for subject in subjects %}
+          <tr>
+            <td><a href="#">{{subject.id}}</a></td>
+            <td>{{subject.subject}}</td>
+            <td>{{subject.class_of_subject}}</td>
+            <td>{{subject.author}}</td>
+            <td>{{subject.isbn}}</td>
+            <td>{{subject.edition}}</td>
+            <td><a href="{{ subject.file.url }}" class="btn btn-primary" download> Download </a></td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+{% endblock %}

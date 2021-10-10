@@ -1,0 +1,32 @@
+{% load static %}
+<link rel="stylesheet" href="{% static 'css/styles.css' %}">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+{% block content %}
+<section>
+<div class="global-container">
+	<div class="card login-form">
+		<div class="card-body">
+			<h3 class="card-title text-center">Reset Password</h3>
+			<div class="card-text">
+                <p class="text-center">Please Enter the email</p>		
+                {% if messages %}
+                    {% for message in messages %}
+                    <div class="alert alert-info">
+                        {{ message }}
+                    </div>
+                    {% endfor %}
+                {% endif %}	
+                <div class="text-center">
+                    <form action="{% url 'reset_pass_send_email'%}" method="post">
+                        {% csrf_token %}
+                        <input class="form-control" type="text" name="reset_password" value="">
+                        <button type="submit" class="btn btn-success">Submit</button>
+                    </form>
+                </div>
+			</div>
+		</div>
+	</div>
+</div>
+</section>
+{% endblock %}

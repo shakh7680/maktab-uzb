@@ -1,0 +1,113 @@
+{% extends is_staff|yesno:'admin.html,user.html' %}
+
+{% block title%}
+Comments
+{% endblock %}
+
+{% block content %}
+<div class="col-xl-12 col-lg-7 mb-4">
+  <div class="card">
+    <div class="card-header py-3 d-flex flex-row align-items-center">
+      {% if not user.is_staff %}
+        <h6 class="m-0 font-weight-bold text-primary"><a href="{% url 'schools' %}" class="btn btn-success"> Making Comment</a></h6>  
+      {% endif %}
+        <div class="p-2"><a class="m-0  btn btn-danger btn-sm"href="{% url 'comments' 0 %}">All</a></div>
+        <div class="p-2"><a class="m-0  btn btn-danger btn-sm" href="{% url 'comments' 1%}">Todays Comment</a></div>
+        <div class="p-2"><a class="m-0  btn btn-danger btn-sm" href="{% url 'comments' 2%}">Yesterday Comments</a></div>
+        <div class="p-2"><a class="m-0  btn btn-danger btn-sm" href="{% url 'comments' 3%}">Within week Comments</a></div>
+        <div class="p-2"><a class="m-0  btn btn-danger btn-sm" href="{% url 'comments' 4%}">Within month Comments</a></div>
+    </div>
+    <div class="table-responsive">
+      <table class="table align-items-center table-flush">
+        <thead class="thead-light">
+          <tr>
+              <th>Comment id</th>
+              <th>Comment For whom</th>
+              <th>Comment body</th>
+              <th>Comment created_at</th>
+              <th>Comment updated_at</th>
+              <th>Comment Delete</th>
+              <th>Comment Hide</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          {% for comment in comments %}
+          <tr>
+            <td><a href="#">{{comment.id}}</a></td>
+            <td>{{comment.teacher_id.first_name}}</td>
+            <td>{{comment.comment}}</td>
+            <td>{{comment.created_at}}</td>
+            <td>{{comment.update_at}}</td>
+            <!-- Delete Comments -->
+            <form action="{% url 'comments_delete' comment.id  %}" method="post">
+
+              {% csrf_token %}
+              <td><button type="submit" class="btn btn-danger"> <i class="fas fa-trash-alt"></i> Delete </button></td>
+
+            </form>
+            <!-- Hide or Unhide comments -->
+            <form action="{% url 'comments_hide_unhide' comment.id  %}" method="post">
+              
+              {% csrf_token %}
+              {% if comment.hidden == True %}
+                <td><button type="submit" class="btn btn-secondary"> <i class="fas fa-trash-alt"></i> Unhide </button></td>
+              {% elif comment.hidden == False %}
+                <td><button type="submit" class="btn btn-secondary"> <i class="fas fa-trash-alt"></i> Hide </button></td>
+              {% endif %}
+            </form>
+          </tr>
+          {% endfor%}
+        </tbody>
+        <tfoot>
+          <tr>
+              <div class="col-md-12 mt-2 pl-3">
+                {% if comments.has_other_pages %}
+                  <ul class="pagination">
+                    <!-- back arrow -->
+                    {% if comments.has_previous  %}
+                      <li class="page-item">
+                        <a href="?page={{comments.previous_page_number}}" class="page-link">
+                          &laquo;
+                        </a>
+                      </li>
+                      {% else %}
+                        <li class="page-item disabled">
+                          <a class="page-link">&laquo;</a>
+                        </li>
+                    {% endif %}
+                    <!-- Pages links -->
+                    {% for i in comments.paginator.page_range %}
+                        {% if comments.number == i %}
+                        <li class="page-item active">
+                          <a class="page-link">{{i}}</a>
+                        </li>
+                        {% else %}
+                        <li class="page-item">
+                          <a href="?page={{i}}" class="page-link">{{i}}</a>
+                        </li>
+                        {% endif %}
+                    {% endfor %}
+                  
+                  <!-- next arrow -->
+                  {% if comments.has_next  %}
+                      <li class="page-item">
+                        <a href="?page={{comments.next_page_number}}" class="page-link">
+                          &raquo;
+                        </a>
+                      </li>
+                      {% else %}
+                        <li class="page-item disabled">
+                          <a class="page-link">&raquo;</a>
+                        </li>
+                    {% endif %}
+                  </ul>
+                {% endif %}
+              </div>
+          </tr>
+        </tfoot>
+      </table>
+    </div>
+  </div>
+</div>
+{% endblock %}

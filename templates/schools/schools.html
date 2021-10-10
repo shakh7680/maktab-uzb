@@ -1,0 +1,453 @@
+{% extends 'base.html' %}
+
+{% block title%}
+Schools
+{% endblock %}
+
+{% block content %}
+<section id="schools" class="showcase-search text-white py-5 ">
+    <div class="container">
+        <div class="row text-center">
+            <div class="col-md-12 rounded shadow  pb-3">
+                <div class="lead mb-5 text-primary ">
+                    Here you can search subjects you want easily.
+                </div>
+                <form action="{% url 'schools' %}">
+                    {% csrf_token %}
+                    <!-- Form Row 1 -->
+                    <div class="form-row">
+                        <!-- Subject class -->
+                        <div class="col-md-4 mb-3">
+                            <label class="sr-only">Class of subject</label>
+                            <select name="region" id="region" class="form-control">
+                                <option value="123">
+                                    Select region
+                                </option>
+                                {% for key,value in region_choices.items %}
+                                <option value="{{key}}">
+                                    {{value}}
+                                </option>
+                                {% endfor %}
+                            </select>
+                        </div>
+
+                        <!-- Type of school -->
+                        <div class="col-md-4 mb-3">
+                            <label class="sr-only">Class of subject</label>
+                            <select name="school_type" id="school_type" class="form-control">
+                                <option value="">
+                                    Select School Type
+                                </option>
+                                {% for key,value in school_type_choices.items %}
+                                <option value="{{key}}">
+                                    {{value}}
+                                </option>
+                                {% endfor %}
+                            </select>
+                        </div>
+
+                        <!-- School name -->
+                        <div class="col-md-4 mb-3">
+                            <select name="school_name" class="form-control" id="school_name">
+                                <option selected="true" disabled="disabled">
+                                    Select School Name
+                                </option>
+                            </select>
+                        </div>
+
+
+
+                        <button class="btn btn-success btn-block mt-4" type="submit">
+                            Submit form
+                        </button>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<section id="showcase-inner" class="showcase-search text-white py-5 ">
+
+    <div class="row" style="margin: 0 5px 0 5px;">
+        {% for school in schools %}
+        <div class="col-md-3">
+            <div class="card shadow-sm">
+
+                <img src="{{ school.photo_main.url }}" alt="" class="card-img-top">
+                <div class="card-body">
+
+                    <h5 class="card-title text-dark"> School name: {{school.schoolname}}</h5>
+                    <p class="card-text text-dark"><span class="font-weight-bold"> Number:</span>
+                        {{school.schoolnumber}}</p>
+                    <p class="card-text text-dark"><span class="font-weight-bold">{{ school.photo_main.url }} Adress:</span>{{school.adress}}</p>
+                    <p class="card-text text-dark"><span class="font-weight-bold"> <a style="text-decoration: none;"
+                                href="{% url 'teachers' school.id %}">Teachers number:</a> </span>
+                        {{school.teachersnumber}}</p>
+                    <p class="card-text text-dark"><span class="font-weight-bold"> Pupils number:</span>
+                        {{school.pupilsnumber}}</p>
+                    <p class="card-text text-dark"><span class="font-weight-bold"> Website:</span> {{school.website}}
+                    </p>
+                    <a href="{{ subject.file.url }}" class="btn btn-primary" download> Download Document </a>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+
+
+    <div class="col-md-12 mt-2 pl-3">
+        {% if schools.has_other_pages %}
+        <ul class="pagination">
+            <!-- back arrow -->
+            {% if schools.has_previous  %}
+            <li class="page-item">
+                <a href="?page={{schools.previous_page_number}}" class="page-link">
+                    &laquo;
+                </a>
+            </li>
+            {% else %}
+            <li class="page-item disabled">
+                <a class="page-link">&laquo;</a>
+            </li>
+            {% endif %}
+            <!-- Pages links -->
+            {% for i in schools.paginator.page_range %}
+            {% if schools.number == i %}
+            <li class="page-item active">
+                <a class="page-link">{{i}}</a>
+            </li>
+            {% else %}
+            <li class="page-item">
+                <a href="?page={{i}}" class="page-link">{{i}}</a>
+            </li>
+            {% endif %}
+            {% endfor %}
+
+            <!-- next arrow -->
+            {% if schools.has_next  %}
+            <li class="page-item">
+                <a href="?page={{schools.next_page_number}}" class="page-link">
+                    &raquo;
+                </a>
+            </li>
+            {% else %}
+            <li class="page-item disabled">
+                <a class="page-link">&raquo;</a>
+            </li>
+            {% endif %}
+        </ul>
+        {% endif %}
+    </div>
+
+
+
+
+
+</section>
+<div class="container-fluid p-0" style="background-color: rgb(236, 234, 234);">
+    <div class="container " style="font-family:'Nunito', sans-serif; font-weight:700;">
+        <div class="row justify-content-center ">
+            <div class="col-12 col-md-8 col-lg-8 col-xl-10">
+                <div class="container mt-5"
+                    style="background-color: #fff; box-shadow: 0 1px 1px 0 rgba(0, 0, 0, 0.06), 0 2px 5px 0 rgba(0, 0, 0, 0.2);">
+                    <div class="h2 text-center pt-3" style="font-weight: 900;">
+                        President Schools
+                    </div>
+                    <hr>
+                    <div class="content">
+                        <p>
+                            <strong> The Presidential School</strong> is a specialized public educational institution
+                            whose activities are aimed at identifying and educating gifted children
+                            to train highly qualified specialists.
+                        </p>
+                        <p>
+                            14 Presidential schools will be established in accordance with the Resolution
+                            of the President of the Republic of Uzbekistan dated February 20, 2019 PP-4199
+                            "On measures to establish presidential schools" in the Republic of Karakalpakstan,
+                            regions and the city of Tashkent.
+                        </p>
+                        <p>
+                            In 2019, <strong>Presidential boarding schools</strong> were
+                            opened in Tashkent, Khiva, Nukus and Namangan.
+                        </p>
+                        <p>
+                            The initial limited number of <strong>presidential schools</strong> is due to the need to
+                            test a
+                            completely new model for the management of these institutions. Presidential
+                            schools are planned to be built in all regions of Uzbekistan from 2020 to 2021.
+                        </p>
+                        <p>
+                            Free general secondary education is provided in <strong> presidential schools</strong>.
+                        </p>
+                        <p>
+                            The main purpose of the <strong> Presidential schools </strong>is to identify and educate
+                            gifted
+                            children through the use of advanced technologies in the educational process,
+                            as well as to support and encourage gifted youth, to enrich the spiritually
+                            rich and ensuring guarantees of upbringing of intellectually developed generation.
+                        </p>
+                    </div>
+                    <div class="h2 text-center" style="font-weight: 900;">
+                        The main tasks and priorities of the Presidential School:
+                    </div>
+                    <div class="content">
+                        <ul style="list-style-type: circle;">
+                            <li>
+                                <p>
+                                    to identify, select and educate gifted children, create conditions
+                                    for their full development, as well as reveal the intellectual, scientific
+                                    and creative potential of students;
+                                </p>
+                            </li>
+                            <li>
+                                <p>
+                                    to organize in-depth study of natural and exact sciences, mastering foreign
+                                    languages, engineering and information technologies, to create the necessary
+                                    conditions for the development of innovative ideas and developments of students;
+                                </p>
+                            </li>
+                            <li>
+                                <p>
+                                    to establish modern methods of teaching and assessing students' knowledge, as well
+                                    as an interdisciplinary approach to teaching based on the integration of
+                                    educational programs, and then apply the positive experience to the public education
+                                    system of the republic;
+                                </p>
+                            </li>
+                            <li>
+                                <p>
+                                    to direct students to the profession, to develop their leadership skills and public
+                                    speaking skills, to improve their skills in critical thinking, information
+                                    retrieval,
+                                    analysis and processing, to apply the acquired knowledge in practice;
+                                </p>
+                            </li>
+                            <li>
+                                <p>
+                                    to ensure the proper participation of students in international Olympiads,
+                                    competitions and contests in general education subjects;
+                                </p>
+                            </li>
+                            <li>
+                                <p>
+                                    to form in students a sense of patriotism and love for the Fatherland,
+                                    tolerance, respect for laws, national and universal values, strong beliefs
+                                    and views on life;
+                                </p>
+                            </li>
+                            <li>
+                                <p>
+                                    to establish cooperation with national and foreign general secondary and
+                                    higher education institutions in the same field to ensure the continuity
+                                    of curricula, to continue the education of graduates in advanced foreign
+                                    universities and their branches in the country.
+                                </p>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="container-fluid pb-5" style="background-color: rgb(236, 234, 234);">
+    <div class="container " style="font-family:'Nunito', sans-serif; font-weight:700;">
+        <div class="row justify-content-center ">
+            <div class="col-12 col-md-8 col-lg-8 col-xl-10">
+                <div class="container mt-5"
+                    style="background-color: #fff; box-shadow: 0 1px 1px 0 rgba(0, 0, 0, 0.06), 0 2px 5px 0 rgba(0, 0, 0, 0.2);">
+                    <div class="h2 text-center pt-3" style="font-weight: 900;">
+                        Private Schools
+                    </div>
+                    <hr>
+                    <div class="content">
+                        <p>
+                            Private schools in Uzbekistan are actively developing. New educational institutions
+                            with various biases and teaching methods appear. In most of them, students
+                            spend almost all of their time. The curriculum in the morning, creative circles,
+                            sports, homework - in the second
+                        </p>
+                        <p>
+                            Despite the differences between private and public schools, the management of the
+                            educational process, the control of attendance, performance and achievement
+                            of children is an integral part of any educational institution.
+                        </p>
+                        <p>
+                            Today in Tashkent there are 51 private schools. Many executives have turned to
+                            Kundalik to implement the platform in their school, as some private schools are
+                            ready to completely abandon paper journals.
+                        </p>
+                    </div>
+                    <div class="h2 text-center" style="font-weight: 900;">
+                        Main factors
+                        <hr>
+                    </div>
+                    <div class="content">
+                        <div class="row pt-5 pb-5">
+                            <!-- First factor -->
+                            <div class="col-sm-3 col-lg-3">
+                                <div class="counter-box">
+                                    <i class="fas fa-school fa-3x rounded-circle" style="color: #6a6a6b"></i>
+                                    <div class="counter-num">
+                                        <p class="counter">
+                                            120
+                                        </p>
+                                        <span class="counter-text">
+                                            Private Schools in Uzbekistan
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Second factor -->
+                            <div class="col-sm-3 col-lg-3">
+                                <div class="counter-box">
+                                    <i class="fas fa-graduation-cap fa-3x rounded-circle" style="color: #6a6a6b"></i>
+                                    <div class="counter-num">
+                                        <p class="counter">
+                                            20000
+                                        </p>
+                                        <span class="counter-text">
+                                            Students
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Third factor -->
+                            <div class="col-sm-3 col-lg-3">
+                                <div class="counter-box">
+                                    <i class="fas fa-user-tie fa-3x rounded-circle" style="color: #6a6a6b"></i>
+                                    <div class="counter-num">
+                                        <p class="counter">
+                                            300
+                                        </p>
+                                        <span class="counter-text">
+                                            Teachers
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-3 col-lg-3">
+                                <div class="counter-box">
+                                    <i class="fas fa-language fa-3x rounded-circle" style="color: #6a6a6b"></i>
+                                    <div class="counter-num">
+                                        <p class="counter">
+                                            15
+                                        </p>
+                                        <span class="counter-text">
+                                            Languages
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="container-fluid pb-5" style="background-color: rgb(236, 234, 234);">
+    <div class="container " style="font-family:'Nunito', sans-serif; font-weight:700;">
+        <div class="row justify-content-center ">
+            <div class="col-12 col-md-8 col-lg-8 col-xl-10">
+                <div class="container mt-5"
+                    style="background-color: #fff; box-shadow: 0 1px 1px 0 rgba(0, 0, 0, 0.06), 0 2px 5px 0 rgba(0, 0, 0, 0.2);">
+                    <div class="h2 text-center pt-3" style="font-weight: 900;">
+                        Public Schools
+                    </div>
+                    <hr>
+                    <div class="content">
+                        <p>
+                            In Uzbekistan, secondary education is divided into two stages. The first stage
+                            includes nine years of compulsory schooling with the same programs all over
+                            Uzbekistan. The second stage covers education and vocational training after
+                            nine years. It includes general secondary education and specialized secondary
+                            education. Young people receive general secondary education while staying in
+                            school for the tenth and eleventh grades. Upon successful completion, they get
+                            a Certificate of Complete Secondary Education
+                        </p>
+                        <p>
+                            In Uzbekistan 11 years of education are compulsory and free, beginning with
+                            4 years at primary school, and followed by 2 phases of secondary education
+                            taking 5 and 2 years respectively. Primary school begins at age 6 and there
+                            is no specific leaving examination after the 4 years are complete.
+                        </p>
+                        <p>
+                            The next 5 years are spent at general secondary school from ages 10 to 15.
+                            Following that, there is a choice of between 2 to 3 years of upper education
+                            at either general or technical vocational schools. The former provides a
+                            certificate of completed secondary education and the opportunity to enter
+                            university, the latter a diploma of specialized secondary education, through
+                            a network of secondary vocational institutions.
+                        </p>
+                    </div>
+                    <div class="h2 text-center" style="font-weight: 900;">
+                        Main factors
+                        <hr>
+                    </div>
+                    <div class="content">
+                        <div class="row pt-5 pb-5">
+                            <!-- First Factor -->
+                            <div class="col-sm-3 col-lg-3">
+                                <div class="counter-box">
+                                    <i class="fas fa-school fa-3x rounded-circle" style="color: #6a6a6b"></i>
+                                    <div class="counter-num">
+                                        <p class="counter">
+                                            9,942
+                                        </p>
+                                        <span class="counter-text">
+                                            Schools in Uzbekistan
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Second factor -->
+                            <div class="col-sm-3 col-lg-3">
+                                <div class="counter-box">
+                                    <i class="fas fa-graduation-cap fa-3x rounded-circle" style="color: #6a6a6b"></i>
+                                    <div class="counter-num">
+                                        <p class="counter">
+                                            6,119,440
+                                        </p>
+                                        <span class="counter-text">
+                                            Students
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Third Factor -->
+                            <div class="col-sm-3 col-lg-3">
+                                <div class="counter-box">
+                                    <i class="fas fa-user-tie fa-3x rounded-circle" style="color: #6a6a6b"></i>
+                                    <div class="counter-num">
+                                        <p class="counter">
+                                            481,604
+                                        </p>
+                                        <span class="counter-text">
+                                            Teachers
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-3 col-lg-3">
+                                <div class="counter-box">
+                                    <i class="fas fa-language fa-3x rounded-circle" style="color: #6a6a6b"></i>
+                                    <div class="counter-num">
+                                        <p class="counter">
+                                            7
+                                        </p>
+                                        <span class="counter-text">
+                                            Languages
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

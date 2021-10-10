@@ -1,0 +1,65 @@
+<section class="navigation" style="border-bottom: 1px solid rgb(229, 245, 11);">
+  <div class="nav-container">
+    <div class="brand">
+      <a href="{% url 'index' %}"> MySchool</a>
+    </div>
+    <nav>
+      <div class="nav-mobile">
+        <a id="nav-toggle" href="#!"><span></span></a>
+      </div>
+      <ul class="nav-list">
+        <!-- Home page -->
+        <li>
+          <a href="{% url 'index' %}" class="nav-item1"> Home </a>
+        </li>
+        <!--  Schools page included school type -->
+        <li>
+          <a href="{% url 'schools' %}" class="nav-item2">Schools</a>
+
+        </li>
+        <!-- Online apply -->
+        <li>
+          <a href="{% url 'online_apply' %}" class="nav-item3">Online Apply</a>
+        </li>
+        <!-- Subjects -->
+        <li>
+          <a href="{% url 'subjects' %}" class="nav-item4">Subjects</a>
+        </li>
+        <!-- About school -->
+        <li>
+          <a href="{% url 'about' %}" class="nav-item5">About us</a>
+        </li>
+        {% if user.is_authenticated %}
+        <li {% if 'dashboard' in request.path %} class="active" {% else %} class="nav-item mr-3" {% endif %}>
+          <a href="{% url 'user_dashboard' %}">
+            {{user.first_name}}
+          </a>
+        </li>
+        <li class="nav-item mr-3">
+          <a href="javascript:{document.getElementById('logout').submit()}">
+            <i class="fas fa-sign-out-alt"></i>Logout
+          </a>
+          <form action="{% url 'logout' %}" method="POST" id="logout">
+            {% csrf_token %}
+            <input type="hidden">
+          </form>
+        </li>
+        {% else %}
+        <li {% if 'register' in request.path %} class="nav-item active mr-3" {% else %} class="nav-item mr-3"
+          {% endif %}>
+          <a href="{% url 'register' %}">
+            <i class="fas fa-user-plus"></i> Register</a>
+        </li>
+
+        <li {% if 'login' in request.path %} class="nav-item7 active mr-3" {%else%} class="nav-item mr-3" {%endif%}>
+          <a href="{% url 'login' %}">
+            <i class="fas fa-sign-in-alt"></i>
+            Login
+          </a>
+        </li>
+
+        {% endif %}
+      </ul>
+    </nav>
+  </div>
+</section>

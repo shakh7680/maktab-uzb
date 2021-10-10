@@ -1,0 +1,99 @@
+{% extends is_staff|yesno:"admin.html,user.html" %}
+{% block title%}
+Schools
+{% endblock %}
+
+{% block content %}
+<div class="col-xl-12 col-lg-7 mb-4">
+  <div class="d-sm-flex align-items-center justify-content-between mb-4">
+    <h1 class="h3 mb-0 text-gray-800">Schools</h1>
+  </div>
+  <div class="card">
+    <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+      <h6 class="m-0 font-weight-bold text-primary">Schools</h6>
+    </div>
+    <div class="table-responsive">
+      <table class="table align-items-center table-flush">
+        <thead class="thead-light">
+          <tr>
+            <th>School id</th>
+            <th>School Name</th>
+            <th>School No</th>
+            <th>School Adress</th>
+            <th>School Teacher No</th>
+            <th>School Student No</th>
+            <th>School website</th>
+            <th>School created at</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for school in schools %}
+          <tr>
+            <td><a href="#">{{school.id}}</a></td>
+            <td>{{school.schoolname}}</td>
+            <td>{{school.schoolnumber}}</td>
+            <td>{{school.adress}}</td>
+            <td>{{school.teachersnumber}}</td>
+            <td>{{school.pupilsnumber}}</td>
+            <td>{{school.website}}</td>
+            <td>{{school.created_at}}</td>
+
+          </tr>
+
+          {% endfor%}
+
+        </tbody>
+        <tfoot>
+          <tr>
+            <div class="col-md-12 mt-2 pl-3">
+              {% if schools.has_other_pages %}
+              <ul class="pagination">
+                <!-- back arrow -->
+                {% if schools.has_previous  %}
+                <li class="page-item">
+                  <a href="?page={{schools.previous_page_number}}" class="page-link">
+                    &laquo;
+                  </a>
+                </li>
+                {% else %}
+                <li class="page-item disabled">
+                  <a class="page-link">&laquo;</a>
+                </li>
+                {% endif %}
+                <!-- Pages links -->
+                {% for i in schools.paginator.page_range %}
+                {% if schools.number == i %}
+                <li class="page-item active">
+                  <a class="page-link">{{i}}</a>
+                </li>
+                {% else %}
+                <li class="page-item">
+                  <a href="?page={{i}}" class="page-link">{{i}}</a>
+                </li>
+                {% endif %}
+                {% endfor %}
+
+                <!-- next arrow -->
+                {% if schools.has_next  %}
+                <li class="page-item">
+                  <a href="?page={{schools.next_page_number}}" class="page-link">
+                    &raquo;
+                  </a>
+                </li>
+                {% else %}
+                <li class="page-item disabled">
+                  <a class="page-link">&raquo;</a>
+                </li>
+                {% endif %}
+              </ul>
+              {% endif %}
+            </div>
+          </tr>
+        </tfoot>
+      </table>
+    </div>
+    <div class="card-footer"></div>
+  </div>
+</div>
+
+{% endblock %}

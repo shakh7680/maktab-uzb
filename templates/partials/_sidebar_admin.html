@@ -1,0 +1,45 @@
+<ul class="navbar-nav sidebar sidebar-light accordion" id="accordionSidebar">
+  <a class="sidebar-brand d-flex align-items-center justify-content-center" href="{% url 'admin_dashboard' %}">
+    <div class="sidebar-brand-text mx-3">Admin Dashboard</div>
+  </a>
+  <hr class="sidebar-divider my-0">
+  <li class="nav-item active">
+    <a class="nav-link" href="{% url 'admin_dashboard' %}">
+      <span>Dashboard</span></a>
+  </li>
+  <hr class="sidebar-divider">
+  <div class="sidebar-heading">
+    Features
+  </div>
+  <li class="nav-item">
+    <a class="nav-link" href="{% url 'schools_info' %}">
+      <i class="fas fa-school"></i>
+      <span>Schools</span>
+    </a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link " href="{% url 'teachers' %}">
+      <i class="fas fa-user-tie"></i>
+      <span>Teachers</span>
+    </a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link collapsed" href="{% url 'applies' 'all' %}">
+      <i class="fas fa-clipboard-list"></i>
+      <span>Applies</span>
+    </a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="{% url 'admin_subjects' %}">
+      <i class="fas fa-book"></i>
+      <span>Subjects</span>
+    </a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="{% url 'comments' 0 %}">
+      <i class="fas fa-comments fa-2x text-success"></i>
+      <span>Comment</span>
+    </a>
+  </li>
+  <div class="version" id="version-ruangadmin"></div>
+</ul>

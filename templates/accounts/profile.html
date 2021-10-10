@@ -1,0 +1,87 @@
+{% extends is_staff|yesno:'admin.html,user.html' %}
+
+{% block title %}
+{{request.user.first_name}} Profile
+{% endblock %}
+
+{% block content %}
+<div class="container rounded bg-white mt-5 mb-5">
+    <form action="{% url 'profile_save' user.id %}" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <div class="row">
+            <div class="col-md-4 border-right">
+                <div class="d-flex flex-column align-items-center text-center p-3 py-5">
+                    <!-- Avatar upload -->
+                    <div class="avatar-upload">
+                        <div class="avatar-edit">
+                            <input type='file' name="profile_photo" id="imageUpload" accept=".png, .jpg, .jpeg">
+                            <label for="imageUpload"></label>
+                        </div>
+                        <div class="avatar-preview">
+                            {% if user.profile_photo %}
+                            <div id="imagePreview" style="background-image: url('{{user.profile_photo.url}}');">
+                            </div>
+
+                            {% else %}
+                            <div id="imagePreview" style="background-image: url('/media/profile_default.png');">
+                            </div>
+                            {% endif %}
+                        </div>
+                    </div>
+
+                    <span class="font-weight-bold">{{user.first_name}}</span>
+                    <span class="text-black-50">{{user.email}}</span><span> </span>
+                </div>
+            </div>
+
+            <div class="col-md-8 border-right">
+                <div class="p-3 py-5">
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <h4 class="text-right">Profile Settings</h4>
+                    </div>
+
+                    <div class="row mt-2">
+                        <div class="col-md-6"><label class="labels">Name</label><input type="text" name="first_name"
+                                class="form-control" value="{{user.first_name}}"></div>
+                        <div class="col-md-6"><label class="labels">Surname</label><input type="text" name="last_name"
+                                class="form-control" value="{{user.last_name}}"></div>
+                    </div>
+                    <div class="row mt-3">
+                        <div class="col-md-12"><label class="labels">Mobile Number</label><input type="text"
+                                class="form-control" placeholder="enter phone number" value="{{user.phone_number}}">
+                        </div>
+                        <div class="col-md-12"><label class="labels">Email</label><input type="text"
+                                class="form-control" placeholder="enter address line 1" value="{{user.email}}"></div>
+                        <div class="col-md-12"><label class="labels">Created at </label>
+                            <p>{{user.created_at}}</p>
+                        </div>
+                        <div class="col-md-12"><label class="labels">Updated at </label>
+                            <p>{{user.updated_at}}</p>
+                        </div>
+                    </div>
+                    <div class="mt-5 text-center">
+                        <button class="btn btn-primary profile-button" type="submit">Save Profile</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+
+    <div class="row col-md-4">
+        <div class="col-md-6">
+            <form action="{% url 'profile_photo_delete' user.id %}" method="post">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-danger mt-2" id="delete-profile-photo">Delete photo</button>
+            </form>
+        </div>
+
+        <div class="col-md-6">
+            <form action="{% url 'account_delete' user.id %}" method="post">
+                {% csrf_token %}
+                <button class="btn btn-danger">Delete account</button>
+                <p>You can delete your account permanently.</p>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}
